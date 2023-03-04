@@ -1,0 +1,23 @@
+{
+  "name": "ci-testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://github.com/kellengreen/ci-testing#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kellengreen/ci-testing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kellengreen/ci-testing/issues"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
+}
