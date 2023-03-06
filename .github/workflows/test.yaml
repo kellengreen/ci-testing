@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - ./src/**/*.ts
+    branches:
+      - "*"
+      - "!main"
 
 jobs:
   testing:
