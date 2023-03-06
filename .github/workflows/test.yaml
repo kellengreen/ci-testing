@@ -1,5 +1,10 @@
-name: learn-github-actions
-on: [push]
+name: "Source Files"
+
+on:
+  pull_request:
+    paths:
+      - ./src/**/*.ts
+
 jobs:
   testing:
     runs-on: ubuntu-latest

@@ -1,8 +1,8 @@
-interface JsonValue {
-  [key: string]: string | number | boolean | null | JsonValue | JsonValue[];
+interface JsonObject {
+  [key: string]: string | number | boolean | null | JsonObject | JsonObject[];
 }
 
-export default function addTime(value: JsonValue): JsonValue {
+export default function addTime(value: JsonObject): JsonObject {
   value.time = Date.now();
   return value;
 }
