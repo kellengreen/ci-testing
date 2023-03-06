@@ -4,5 +4,6 @@ interface JsonObject {
 
 export default function addTime(value: JsonObject): JsonObject {
   value.time = Date.now();
+
   return value;
 }
