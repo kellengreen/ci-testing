@@ -2,8 +2,8 @@ name: "Source Files"
 
 on:
   push:
-    # paths:
-    #   - ./src/**/*.ts
+    paths:
+      - ./src/**/*.ts
     branches:
       - "*"
       - "!main"
