@@ -1,4 +1,4 @@
 import addTime from "./addTime";
 
-const out = addTime({ a: 0 });
+const out = addTime();
 console.log(out);

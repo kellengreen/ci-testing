@@ -1,7 +1,7 @@
 name: learn-github-actions
 on: [push]
 jobs:
-  build:
+  testing:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -10,21 +10,5 @@ jobs:
           node-version: "latest"
       - run: npm install
       - run: npm run test:ci
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "latest"
-      - run: npm install
       - run: npm run format:ci
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "latest"
-      - run: npm install
-      - run: npm run test:ci
+      - run: npm run build:ci

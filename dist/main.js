@@ -1,3 +1,3 @@
 import addTime from "./addTime";
-const out = addTime(null);
+const out = addTime();
 console.log(out);
