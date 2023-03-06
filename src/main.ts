@@ -1,4 +1,4 @@
-import addTime from "./addTime"
+import addTime from "./addTime";
 
-const out = addTime({ a: 0 })
-console.log(out)
+const out = addTime({ a: 0 });
+console.log(out);

@@ -2,9 +2,10 @@
   "compilerOptions": {
     "target": "es2022",
     "module": "es2022",
-    "outDir": "dist"
+    "outDir": "dist",
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "strictNullChecks": true
   },
-  "files": [
-    "src/main.ts",
-  ]
+  "files": ["./src/main.ts"]
 }

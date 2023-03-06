@@ -3,6 +3,6 @@ interface JsonValue {
 }
 
 export default function addTime(value: JsonValue): JsonValue {
-  value.time = Date.now()
+  value.time = Date.now();
   return value;
 }
