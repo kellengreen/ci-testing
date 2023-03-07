@@ -17,9 +17,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "latest"
-      - run: npm version ${{ github.event.label.name }}
       - run: git config user.name github-actions
       - run: git config user.email github-actions@github.com
+      - run: npm version ${{ github.event.label.name }}
       - run: git add package.json
       - run: git commit -m "Version Bump (${{ github.event.label.name }})"
       - run: git push
