@@ -1,4 +1,4 @@
 {
   "preset": "ts-jest",
-  "rootDir": "./src"
+  "rootDir": "src"
 }
