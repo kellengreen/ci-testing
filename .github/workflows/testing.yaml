@@ -1,10 +1,8 @@
 name: "Source Files"
 
 on:
-  push:
-    # soltuion to this no working
-    # paths:
-    #   - src/**/*.ts
+  pull_request:
+    types: [opened, edited]
     branches:
       - "*"
       - "!main"
@@ -18,6 +16,6 @@ jobs:
         with:
           node-version: "latest"
       - run: npm install
+      - run: npm run test:ci
       - run: npm run format:ci
       - run: npm run build:ci
-      - run: npm run test:ci
