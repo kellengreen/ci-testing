@@ -18,6 +18,6 @@ jobs:
         with:
           node-version: "latest"
       - run: npm install
-      - run: npm run test:ci
       - run: npm run format:ci
       - run: npm run build:ci
+      - run: npm run test:ci
