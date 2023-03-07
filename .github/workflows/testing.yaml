@@ -2,7 +2,7 @@ name: "Source Files"
 
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened, synchronize]
     branches:
       - "*"
       - "!main"
