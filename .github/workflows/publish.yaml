@@ -2,11 +2,8 @@ name: "Source Files"
 
 on:
   push:
-    # paths:
-    #   - src/**/*.ts
     branches:
-      - "*"
-      - "!main"
+      - "main"
 
 jobs:
   testing:

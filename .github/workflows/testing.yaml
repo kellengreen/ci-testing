@@ -1,0 +1,23 @@
+name: "Source Files"
+
+on:
+  push:
+    # soltuion to this no working
+    # paths:
+    #   - src/**/*.ts
+    branches:
+      - "*"
+      - "!main"
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+      - run: npm install
+      - run: npm run test:ci
+      - run: npm run format:ci
+      - run: npm run build:ci
