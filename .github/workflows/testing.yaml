@@ -1,10 +1,8 @@
 name: "Source Files"
 
 on:
-  push:
-    # soltuion to this no working
-    # paths:
-    #   - src/**/*.ts
+  pull_request:
+    types: [opened, synchronize]
     branches:
       - "*"
       - "!main"
