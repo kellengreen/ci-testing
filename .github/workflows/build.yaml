@@ -20,4 +20,4 @@ jobs:
           git config user.email github-actions@github.com
           git add -f dist
           git commit -m "dist files"
-          git push
+          git push -f
