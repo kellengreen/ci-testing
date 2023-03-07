@@ -7,5 +7,5 @@
     "esModuleInterop": true,
     "strictNullChecks": true
   },
-  "files": ["./src/main.ts"]
+  "files": ["src/main.ts"]
 }

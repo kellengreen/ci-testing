@@ -16,8 +16,8 @@
   "scripts": {
     "build": "npx tsc",
     "build:ci": "npx tsc --noEmit",
-    "format": "npx prettier --write ./src/**",
-    "format:ci": "npx prettier --check ./src/**",
+    "format": "npx prettier --write src/**",
+    "format:ci": "npx prettier --check src/**",
     "test": "npx jest",
     "test:ci": "npx jest --ci"
   },
