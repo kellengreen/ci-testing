@@ -9,7 +9,7 @@ on:
 
 jobs:
   patch:
-    if: ${{ github.event.label.name == "patch" }}
+    # if: ${{ github.event.label.name == "patch" }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
