@@ -3,8 +3,6 @@ name: "Source Files"
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - src/**/*.ts
     branches:
       - "main"
 
