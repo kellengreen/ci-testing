@@ -27,9 +27,9 @@ jobs:
           npm version patch
           git add package.json
           
-          git commit -m "Distribution Build"
           git push
 
+      # git commit -m "Distribution Build"
       # git checkout -b release
       # npm run build
       # git add -f dist
