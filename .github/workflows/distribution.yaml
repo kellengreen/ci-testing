@@ -11,7 +11,7 @@ jobs:
     if: github.event.push.pusher.name != 'github-actions'
     runs-on: ubuntu-latest
     steps:
-      -run: echo ${{ github.event.push.pusher.name }}
+      - run: echo ${{ github.event.push.pusher.name }}
 
       - uses: actions/checkout@v3
         with:
