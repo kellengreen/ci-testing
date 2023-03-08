@@ -8,11 +8,8 @@ on:
 
 jobs:
   distribution:
-    if: github.event.push.pusher.name != 'github-actions'
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event.push.pusher.name }}
-
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
@@ -33,9 +30,12 @@ jobs:
           npm run build
 
       - name: Commit
+        envs:
+          version: $(npm pkg get version | sed 's/"//g')
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add -A
-          git commit -m $(npm pkg get version | sed 's/"//g')
+          git checkout -b $version
+          git add --all
+          git commit --message $versiong
           git push
