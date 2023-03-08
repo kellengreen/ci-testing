@@ -23,14 +23,14 @@ jobs:
           npm install
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git checkout -b release
 
           npm version patch
           git add package.json
-
-          git commit -m "Distribution Build" -a
+          
+          git commit -m "Distribution Build"
           git push
 
+      # git checkout -b release
       # npm run build
       # git add -f dist
       # - name: Version Bump
