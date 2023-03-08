@@ -1,8 +1,8 @@
 name: "Distribution"
 
 on:
-  pull_request:
-    types: [closed]
+  push:
+    # types: [closed]
     branches:
       - "main"
 
