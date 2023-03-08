@@ -1,0 +1,35 @@
+name: "Distribution"
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  distribution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+      - name: Configuration
+        run: |
+          npm install
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: Version Bump
+        run: |
+          npm version patch
+          git add package.json
+
+      - name: Build
+        run: |
+          npm run build
+          git add -f dist
+
+      - name: "Commit"
+        run: |
+          git commit -m "Distribution Build"
+          git push -f
