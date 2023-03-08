@@ -29,6 +29,8 @@ jobs:
           npm run build
           git add package.json
 
+      - run: git push
+
       # - name: "Commit"
       # run: git commit -m "Distribution Build"
 
@@ -36,7 +38,5 @@ jobs:
       # run: |
       # npm run build
       # git add -f dist
-
-      # - run: git push
 
       # - run: git push
