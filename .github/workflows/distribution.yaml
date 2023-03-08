@@ -11,6 +11,8 @@ jobs:
     if: github.event.push.pusher.name != 'github-actions'
     runs-on: ubuntu-latest
     steps:
+      -run: echo ${{ github.event.push.pusher.name }}
+
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
@@ -35,5 +37,5 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add -A
-          git commit -m $(npm pkg get version)
+          git commit -m $(npm pkg get version | sed 's/"//g')
           git push
