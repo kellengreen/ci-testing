@@ -29,17 +29,18 @@ jobs:
       - name: Version Bump
         run: |
           npm version patch
+          git add package.json
+
+      - name: Build
+        run: |
+          npm run build
+          git add dist
+
+      - name: "Push"
+        run: |
           git push
 
-      # - name: Build
-      #   run: |
-      #     npm run build
-
-      # - name: "Push"
-      #   run: |
-      #     git commit -am "Distribution Build"
-      #     git push
-
+      # git commit -am "Distribution Build"
       # git add -f dist
       # git add package.json
       # npm version patch
