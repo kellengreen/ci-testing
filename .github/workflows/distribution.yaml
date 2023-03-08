@@ -1,12 +1,14 @@
 name: "Distribution"
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - "main"
 
 jobs:
   distribution:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,22 +19,31 @@ jobs:
         with:
           node-version: "latest"
 
-      - name: Install
+      - name: Configure
         run: |
           npm install
           git config user.name github-actions
           git config user.email github-actions@github.com
 
+      - name: Version Bump
+        run: |
+          npm version patch
+
+      - name: Build
+        run: |
           npm run build
-          git add -f dist
-                  
+
+      - name: "Push"
+        run: |
+          git commit -a -m "Distribution Build"
           git push
 
+      # git add -f dist
+      # git add package.json
       # npm version patch
       # git add package.json
       # fetch-depth: 0
       # ref: ${{ github.event.push.head.ref }}/
-      # git commit -m "Distribution Build"
       # git checkout -b release
       # - name: Version Bump
       # run: |
