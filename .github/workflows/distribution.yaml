@@ -38,4 +38,4 @@ jobs:
           git checkout -b test-1
           git add --all
           git commit --message test-1
-          git push
+          git push origin test-1
