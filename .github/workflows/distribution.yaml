@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        # with:
-          # token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
 
       - uses: actions/setup-node@v3
         with:
@@ -28,8 +26,15 @@ jobs:
           npm version patch
           git add package.json
 
-      - name: "Commit"
+      - name: Build
         run: |
+          npm run build
+          git add -f dist
+
+      - name: "Com"
+        run: |
+          git checkout -b ${{ date +%s }}
+          git commit -m "Distribution Build"
           git push
 
       # - name: Build
