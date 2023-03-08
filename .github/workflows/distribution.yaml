@@ -29,8 +29,8 @@ jobs:
           npm run build
           git add package.json
 
-      - name: "Commit"
-        run: git commit -m "Distribution Build"
+      # - name: "Commit"
+      # run: git commit -m "Distribution Build"
 
       # - name: Build
       # run: |
