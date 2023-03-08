@@ -8,6 +8,7 @@ on:
 
 jobs:
   distribution:
+    if: github.event.pusher.name != "github-actions"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,22 +27,18 @@ jobs:
       - name: Install
         run: npm install
 
-      - name: Configuration
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-
       - name: Versioning
         run: |
           npm version patch --git-tag-version=false
-          git add package.json package-lock.json
 
       - name: Build
         run: |
           npm run build
-          git add --force dist
 
-      # - name: Commit
-      #   run: |
-      #     git commit --message v$(npm pkg get version | sed 's/"//g')
-      #     git push origin HEAD
+      - name: Commit
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add --all
+          git commit --message v$(npm pkg get version | sed 's/"//g')
+          git push
