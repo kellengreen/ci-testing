@@ -38,9 +38,9 @@ jobs:
 
       - name: "Push"
         run: |
+          git commit -m "Distribution Build"
           git push
 
-      # git commit -am "Distribution Build"
       # git add -f dist
       # git add package.json
       # npm version patch
