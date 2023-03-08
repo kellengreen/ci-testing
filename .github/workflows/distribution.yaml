@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
+        with:
+          token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
 
       - uses: actions/setup-node@v3
         with:
@@ -38,7 +38,5 @@ jobs:
 
       - name: Commit
         run: |
-          git checkout -b v$(npm pkg get version | sed 's/"//g')
-          git add --all
-          git commit --message 'CI Build'
+          git commit --message v$(npm pkg get version | sed 's/"//g')
           git push origin HEAD
