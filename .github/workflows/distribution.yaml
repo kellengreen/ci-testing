@@ -12,8 +12,8 @@ env:
 
 jobs:
   distribution:
-    # env only
-    if: github.event.actor != 'github-actions'
+    # Only steps have access to environment variables.
+    if: github.event.head_commit.author.name != 'github-actions'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
