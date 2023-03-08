@@ -1,17 +1,19 @@
 name: "Distribution"
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - "main"
 
 jobs:
   distribution:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        # with:
-        # token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
+        with:
+          token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
 
       - uses: actions/setup-node@v3
         with:
@@ -26,13 +28,12 @@ jobs:
       - name: Version Bump
         run: |
           npm version patch
-          npm run build
           git add package.json
 
-      - run: git push
-
-      # - name: "Commit"
-      # run: git commit -m "Distribution Build"
+      - name: "Commit"
+        run: |
+          git commit -m "Distribution Build"
+          git push
 
       # - name: Build
       # run: |
