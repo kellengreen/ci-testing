@@ -18,7 +18,10 @@ jobs:
         with:
           node-version: "latest"
 
-      - run: echo "$GITHUB_CONTEXT"
+      - name: Print
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
       - name: Install
         run: npm install
