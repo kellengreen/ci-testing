@@ -30,7 +30,7 @@ jobs:
           npm run build
 
       - name: Commit
-        envs:
+        env:
           version: $(npm pkg get version | sed 's/"//g')
         run: |
           git config user.name github-actions
