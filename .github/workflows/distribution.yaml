@@ -25,21 +25,20 @@ jobs:
           git config user.email github-actions@github.com
           git checkout -b release
 
-      # - name: Version Bump
-        # run: |
           npm version patch
           git add package.json
 
-      # - name: Build
-        # run: |
-          npm run build
-          git add -f dist
-
-      # - name: "Push"
-        # run: |
           git commit -m "Distribution Build" -a
           git push
 
+      # npm run build
+      # git add -f dist
+      # - name: Version Bump
+      # run: |
+      # - name: Build
+      # run: |
+      # - name: "Push"
+      # run: |
       # - name: Build
       # git commit -m "Distribution Build"
       # run: |
