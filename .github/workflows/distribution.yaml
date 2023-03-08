@@ -15,8 +15,8 @@ jobs:
         with:
           token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
           # fetch-depth: 0
-          
-    - run: |
+
+      - run: |
         date > foo.txt
         git config user.name github-actions
         git config user.email github-actions@github.com
