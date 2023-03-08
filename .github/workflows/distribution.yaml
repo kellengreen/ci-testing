@@ -33,7 +33,7 @@ jobs:
 
       - name: "Com"
         run: |
-          git checkout -b ${{ date +%s }}
+          git checkout -b XXX
           git commit -m "Distribution Build"
           git push
 
