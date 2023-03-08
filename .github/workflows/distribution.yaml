@@ -31,14 +31,14 @@ jobs:
           npm version patch
           git push
 
-      - name: Build
-        # run: |
-        #   npm run build
+      # - name: Build
+      #   run: |
+      #     npm run build
 
-      - name: "Push"
-        # run: |
-        #   git commit -am "Distribution Build"
-        #   git push
+      # - name: "Push"
+      #   run: |
+      #     git commit -am "Distribution Build"
+      #     git push
 
       # git add -f dist
       # git add package.json
