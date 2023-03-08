@@ -21,9 +21,6 @@ jobs:
       - name: Configuration
         run: |
           npm install
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git checkout -b release
 
       - name: Version Bump
         run: |
@@ -37,6 +34,9 @@ jobs:
 
       - name: "Push"
         run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout -b release
           git commit -m "Distribution Build" -a
           git push
 
