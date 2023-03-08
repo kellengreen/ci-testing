@@ -34,6 +34,6 @@ jobs:
           git add -f dist
 
       - name: "Commit"
-        run: |
-          git commit -m "Distribution Build"
-          git push
+        run: git commit -m "Distribution Build"
+
+      - run: git push
