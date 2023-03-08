@@ -8,7 +8,7 @@ on:
 
 jobs:
   distribution:
-    if: github.event.pusher.name != "github-actions"
+    if: github.event.pusher.name != 'github-actions'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
