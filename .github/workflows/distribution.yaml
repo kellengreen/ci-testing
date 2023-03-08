@@ -18,6 +18,8 @@ jobs:
         with:
           node-version: "latest"
 
+      - run: echo $GITHUB_CONTEXT
+
       - name: Install
         run: npm install
 
@@ -36,7 +38,7 @@ jobs:
           npm run build
           git add --force dist
 
-      - name: Commit
-        run: |
-          git commit --message v$(npm pkg get version | sed 's/"//g')
-          git push origin HEAD
+      # - name: Commit
+      #   run: |
+      #     git commit --message v$(npm pkg get version | sed 's/"//g')
+      #     git push origin HEAD

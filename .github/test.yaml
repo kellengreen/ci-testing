@@ -1,0 +1,1 @@
+#     if: ${{ github.event.label.name == 'major' || github.event.label.name == 'minor' || github.event.label.name == 'patch'}}
