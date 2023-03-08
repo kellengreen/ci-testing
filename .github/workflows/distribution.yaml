@@ -12,7 +12,8 @@ env:
 
 jobs:
   distribution:
-    if: github.event.head_commit.author.name != 'github-actions'
+    # env only
+    if: github.event.actor != 'github-actions'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,11 +27,6 @@ jobs:
       - name: Print github
         env:
           CTX: ${{ toJSON(github) }}
-        run: echo "$CTX"
-
-      - name: Print env
-        env:
-          CTX: ${{ toJSON(env) }}
         run: echo "$CTX"
 
       - name: Install
