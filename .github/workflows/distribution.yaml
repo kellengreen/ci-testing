@@ -20,6 +20,7 @@ jobs:
           npm install
           git config user.name github-actions
           git config user.email github-actions@github.com
+          git checkout -b ${{ date '+%s' }}
 
       - name: Version Bump
         run: |
@@ -31,9 +32,8 @@ jobs:
           npm run build
           git add -f dist
 
-      - name: "Com"
+      - name: "Push"
         run: |
-          git checkout -b XXX
           git commit -m "Distribution Build"
           git push
 
