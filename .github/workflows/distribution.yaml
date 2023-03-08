@@ -36,4 +36,4 @@ jobs:
       - name: "Commit"
         run: |
           git commit -m "Distribution Build"
-          git push -f
+          git push
