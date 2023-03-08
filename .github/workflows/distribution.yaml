@@ -11,7 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-         with:
           token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
           # fetch-depth: 0
           # ref: ${{ github.event.push.head.ref }}/
