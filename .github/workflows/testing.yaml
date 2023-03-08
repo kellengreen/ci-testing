@@ -14,7 +14,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "latest"
-      - run: npm install
-      - run: npm run test:ci
-      - run: npm run format:ci
-      - run: npm run build:ci
+
+      - name: "Configuration"
+        run: npm install
+
+      - name: Formatting Checks
+        run: npm run format:ci
+
+      - name: Unit Tests
+        run: npm run test:ci
+
+      - name: Build Time Checks
+        run: npm run build:ci
