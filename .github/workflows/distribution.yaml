@@ -6,9 +6,13 @@ on:
     branches:
       - "main"
 
+env:
+  git_name: github-actions
+  git_email: github-actions@github.com
+
 jobs:
   distribution:
-    if: github.event.pusher.name != 'github-actions'
+    if: github.event.head_commit.author.name != "$git_name"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -37,8 +41,8 @@ jobs:
 
       - name: Commit
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name "$git_name"
+          git config user.email "$git_email"
           git add --all
           git commit --message v$(npm pkg get version | sed 's/"//g')
           git push
