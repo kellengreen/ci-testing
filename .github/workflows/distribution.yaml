@@ -32,10 +32,10 @@ jobs:
 
       - name: "Commit"
         run: |
-          git commit -m "Distribution Build"
           git push
 
       # - name: Build
+      # git commit -m "Distribution Build"
       # run: |
       # npm run build
       # git add -f dist
