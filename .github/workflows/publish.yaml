@@ -11,9 +11,9 @@ jobs:
     if: |
       github.event.pull_request.merged == true &&
       (
-        contains(github.event.issue.labels.*.name, 'patch') ||
-        contains(github.event.issue.labels.*.name, 'minor') ||
-        contains(github.event.issue.labels.*.name, 'major')
+        contains(github.event.pull_request.labels.*.name, 'patch') ||
+        contains(github.event.pull_request.labels.*.name, 'minor') ||
+        contains(github.event.pull_request.labels.*.name, 'major')
       )
     runs-on: ubuntu-latest
     steps:
@@ -35,14 +35,14 @@ jobs:
 
       - name: Versioning
         env:
-          patch: ${{ contains(github.event.issue.labels.*.name, 'patch') && 'patch' || '-' }}
-          minor: ${{ contains(github.event.issue.labels.*.name, 'minor') && 'minor' || '-' }}
-          major: ${{ contains(github.event.issue.labels.*.name, 'major') && 'major' || '-' }}
+          patch: ${{ contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' || '-' }}
+          minor: ${{ contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' || '-' }}
+          major: ${{ contains(github.event.pull_request.labels.*.name, 'major') && 'major' || '-' }}
           version_bump: |
             ${{
-              contains(github.event.issue.labels.*.name, 'patch') && 'patch' ||
-              contains(github.event.issue.labels.*.name, 'minor') && 'minor' ||
-              contains(github.event.issue.labels.*.name, 'major') && 'major' || '-'
+              contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' ||
+              contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
+              contains(github.event.pull_request.labels.*.name, 'major') && 'major' || '-'
             }}
         run: npm version "$version_bump" --git-tag-version=false
 
