@@ -35,9 +35,6 @@ jobs:
 
       - name: Versioning
         env:
-          patch: ${{ contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' || '-' }}
-          minor: ${{ contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' || '-' }}
-          major: ${{ contains(github.event.pull_request.labels.*.name, 'major') && 'major' || '-' }}
           version_bump: |
             ${{
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' ||
