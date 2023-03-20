@@ -6,19 +6,17 @@ on:
     branches:
       - "main"
 
-env:
-  git_name: github-actions
-  git_email: github-actions@github.com
-
 jobs:
   distribution:
-    # if:
-    # github.event.pull_request.merged == true &&
-    # (
-    # github.event.label.name == 'major' ||
-    # github.event.label.name == 'minor' ||
-    # github.event.label.name == 'patch'
-    # )
+    if: |
+      ${{
+        github.event.pull_request.merged == true &&
+        (
+          contains(github.event.issue.labels.*.name, 'patch') ||
+          contains(github.event.issue.labels.*.name, 'minor') ||
+          contains(github.event.issue.labels.*.name, 'major')
+        )
+      }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -38,8 +36,15 @@ jobs:
         run: npm install
 
       - name: Versioning
+        env:
+          version: |
+            ${{
+              contains(github.event.issue.labels.*.name, 'patch') && 'patch' ||
+              contains(github.event.issue.labels.*.name, 'minor') && 'minor' ||
+              contains(github.event.issue.labels.*.name, 'major') && 'major' || '-'
+            }}
         run: |
-          npm version ${{github.event.label.name}} --git-tag-version=false
+          npm version "$version" --git-tag-version=false
 
       - name: Build
         run: |
@@ -47,8 +52,8 @@ jobs:
 
       - name: Commit
         run: |
-          git config user.name "$git_name"
-          git config user.email "$git_email"
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
           git add --all
           git commit --message v$(npm pkg get version | sed 's/"//g')
           git push
