@@ -37,6 +37,9 @@ jobs:
 
       - name: Versioning
         env:
+          p: ${{ contains(github.event.issue.labels.*.name, 'patch') }}
+          n: ${{ contains(github.event.issue.labels.*.name, 'minor') }}
+          j: ${{ contains(github.event.issue.labels.*.name, 'major') }}
           patch: ${{ contains(github.event.issue.labels.*.name, 'patch') && 'patch' || '-' }}
           minor: ${{ contains(github.event.issue.labels.*.name, 'minor') && 'minor' || '-' }}
           major: ${{ contains(github.event.issue.labels.*.name, 'major') && 'major' || '-' }}
