@@ -42,8 +42,9 @@ jobs:
               contains(github.event.issue.labels.*.name, 'minor') && 'minor' ||
               contains(github.event.issue.labels.*.name, 'major') && 'major' || '-'
             }}
-        run: echo "$github"
-        run: npm version "$version_step" --git-tag-version=false
+        run: |
+          echo "$github"
+          npm version "$version_step" --git-tag-version=false
 
       - name: Build
         run: npm run build
