@@ -7,16 +7,14 @@ on:
       - "main"
 
 jobs:
-  distribution:
+  publish:
     if: |
-      ${{
-        github.event.pull_request.merged == true &&
-        (
-          contains(github.event.issue.labels.*.name, 'patch') ||
-          contains(github.event.issue.labels.*.name, 'minor') ||
-          contains(github.event.issue.labels.*.name, 'major')
-        )
-      }}
+      github.event.pull_request.merged == true &&
+      (
+        contains(github.event.issue.labels.*.name, 'patch') ||
+        contains(github.event.issue.labels.*.name, 'minor') ||
+        contains(github.event.issue.labels.*.name, 'major')
+      )
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
