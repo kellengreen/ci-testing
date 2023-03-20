@@ -37,25 +37,23 @@ jobs:
 
       - name: Versioning
         env:
-          version: |
+          version_step: |
             ${{
               contains(github.event.issue.labels.*.name, 'patch') && 'patch' ||
               contains(github.event.issue.labels.*.name, 'minor') && 'minor' ||
               contains(github.event.issue.labels.*.name, 'major') && 'major' || '-'
             }}
-        run: |
-          npm version "$version" --git-tag-version=false
+        run: npm version "$version_step" --git-tag-version=false
 
       - name: Build
-        run: |
-          npm run build
+        run: npm run build
 
       - name: Commit
-       env:
-          version: $(npm pkg get version | sed 's/"//g')
+        env:
+          current_version: $(npm pkg get version | sed 's/"//g')
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
           git add --all
-          git commit --message "$version"
+          git commit --message "v$current_version"
           git push

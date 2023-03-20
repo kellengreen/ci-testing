@@ -19,7 +19,8 @@
     "format": "npx prettier --write src/**",
     "format:ci": "npx prettier --check src/**",
     "test": "npx jest",
-    "test:ci": "npx jest --ci"
+    "test:ci": "npx jest --ci",
+    "push": "git checkout -b \"b-$(date +%s)\" && git add -A && git commit -m \"c-$(date +%s)\" && git push origin HEAD && git checkout main"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",
