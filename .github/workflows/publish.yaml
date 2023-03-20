@@ -36,7 +36,7 @@ jobs:
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
               contains(github.event.pull_request.labels.*.name, 'major') && 'major' || '-'
             }}
-        run: npm version $version_bump --git-tag-version=false
+        run: npm version "$version_bump" --git-tag-version=false
 
       - name: Build
         run: npm run build
