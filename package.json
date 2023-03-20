@@ -20,7 +20,7 @@
     "format:ci": "npx prettier --check src/**",
     "test": "npx jest",
     "test:ci": "npx jest --ci",
-    "push": "NOW=$(date +%s) && git checkout -b $NOW && git add -A && git commit -m $NOW && git push origin HEAD && git checkout main"
+    "push": "VERSION=v$(date +%s) && git checkout -b $VERSION && git add -A && git commit -m $VERSION && git push origin HEAD && git checkout main"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",
