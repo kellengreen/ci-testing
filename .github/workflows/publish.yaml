@@ -12,12 +12,13 @@ env:
 
 jobs:
   distribution:
-    if: github.event.pull_request.merged == true &&
-      (
-      github.event.label.name == 'major' ||
-      github.event.label.name == 'minor' ||
-      github.event.label.name == 'patch'
-      )
+    if:
+      github.event.pull_request.merged == true &&
+      # (
+      # github.event.label.name == 'major' ||
+      # github.event.label.name == 'minor' ||
+      # github.event.label.name == 'patch'
+      # )
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
