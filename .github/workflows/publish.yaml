@@ -51,9 +51,11 @@ jobs:
           npm run build
 
       - name: Commit
+       env:
+          version: $(npm pkg get version | sed 's/"//g')
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
           git add --all
-          git commit --message v$(npm pkg get version | sed 's/"//g')
+          git commit --message "$version"
           git push
