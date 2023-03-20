@@ -27,19 +27,12 @@ jobs:
         with:
           node-version: "latest"
 
-      - name: Print github
-        env:
-          github: ${{ toJSON(github) }}
-        run: echo "$github"
-
       - name: Install
         run: npm install
 
       - name: Versioning
         env:
-          p: ${{ contains(github.event.issue.labels.*.name, 'patch') }}
-          n: ${{ contains(github.event.issue.labels.*.name, 'minor') }}
-          j: ${{ contains(github.event.issue.labels.*.name, 'major') }}
+          github: ${{ toJSON(github) }}
           patch: ${{ contains(github.event.issue.labels.*.name, 'patch') && 'patch' || '-' }}
           minor: ${{ contains(github.event.issue.labels.*.name, 'minor') && 'minor' || '-' }}
           major: ${{ contains(github.event.issue.labels.*.name, 'major') && 'major' || '-' }}
@@ -49,6 +42,7 @@ jobs:
               contains(github.event.issue.labels.*.name, 'minor') && 'minor' ||
               contains(github.event.issue.labels.*.name, 'major') && 'major' || '-'
             }}
+        run: echo "$github"
         run: npm version "$version_step" --git-tag-version=false
 
       - name: Build
