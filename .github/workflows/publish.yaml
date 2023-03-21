@@ -25,10 +25,18 @@ jobs:
         with:
           node-version: latest
 
-      - name: Install
+      - name: Install Dependencies
         run: npm install
 
-      - name: Versioning
+      - name: Configure Git
+        run: |
+          git config user.name 'github-action'
+          git config user.email 'github-actions@github.com'
+
+      - name: Build From Source
+        run: npm run build
+
+      - name: Version Bump
         env:
           version_bump: |
             ${{
@@ -36,17 +44,22 @@ jobs:
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
               contains(github.event.pull_request.labels.*.name, 'major') && 'major' || '-'
             }}
-        run: npm version $version_bump --git-tag-version=false
+        run: npm version $version_bump
 
-      - name: Build
-        run: npm run build
+      - name: Commit New Version
+        run: git push
 
-      - name: Commit
-        env:
-          current_version:
-        run: |
-          git config user.name 'github-action'
-          git config user.email 'github-actions@github.com'
-          git add --all
-          git commit --message "v$(npm pkg get version | sed 's/"//g')"
-          git push
+      # - name: Create release
+      #   uses: "actions/github-script@v6"
+      #   with:
+      #     github-token: "${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}"
+      #     script: |
+      #       await github.rest.repos.createRelease({
+      #         draft: false,
+      #         generate_release_notes: true,
+      #         name: process.env.RELEASE_TAG,
+      #         owner: context.repo.owner,
+      #         prerelease: false,
+      #         repo: context.repo.repo,
+      #         tag_name: process.env.RELEASE_TAG,
+      #       });
