@@ -15,14 +15,10 @@ jobs:
         run: |
           echo $json_github
 
-      - name: Print env
-        env:
-          json_env: ${{ toJSON(env) }}
-        run: |
-          echo $json_env
-
       - name: Checkout source
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -51,7 +47,7 @@ jobs:
             }}
         run: |
           echo "version=$( \
-            npm version $(npx semver -i $level 1.0.25) --git-tag-version=false \
+            npm version $(npx semver -i $level 1.0.26) --git-tag-version=false \
           )" >> ${GITHUB_ENV}
 
       - name: Commit release branch
