@@ -48,5 +48,5 @@ jobs:
 
       - name: Commit release branch
         run: |
-          git checkout -b "release/$(git log -n 1 --pretty=%s)"
+          git checkout -b "release/$(git describe)"
           git push origin HEAD
