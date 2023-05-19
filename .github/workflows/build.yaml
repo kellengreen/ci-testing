@@ -45,7 +45,7 @@ jobs:
         # run: npm version $new_version
         run: npm version patch
 
-      - name: Commit New Version
+      - name: Create Release Branch
         run: |
           git checkout -b "release/$(git log -n 1 --pretty=%s)"
           git push origin HEAD
