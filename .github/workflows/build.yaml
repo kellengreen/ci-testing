@@ -45,9 +45,8 @@ jobs:
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch'
             }}
-        # run: npm version $new_version
         run: |
-          npm version $(npx semver -i $level 1.0.0)
+          npm version $(npx semver -i $level 1.0.1)
 
       - name: Commit release branch
         run: |
