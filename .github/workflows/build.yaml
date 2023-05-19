@@ -34,8 +34,6 @@ jobs:
       - name: Build from source
         run: |
           npx tsc
-          git add -A
-          git commit -m build
 
       - name: Bump version
         env:
@@ -46,9 +44,12 @@ jobs:
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch'
             }}
         run: |
-          npm version $(npx semver -i $level 1.0.1)
+          npm version $(npx semver -i $level 1.0.10) --git-tag-version=false
 
       - name: Commit release branch
         run: |
-          git checkout -b "release/$(git describe)"
+          set VERSION=$(node -e "console.log(require('./package.json').version)")
+          git add -A
+          git commit -m $VERSION
+          git checkout -b "release/$VERSION"
           git push origin HEAD
