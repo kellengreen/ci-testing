@@ -32,7 +32,10 @@ jobs:
           git config user.email 'github-actions@github.com'
 
       - name: Build from source
-        run: npx tsc
+        run: |
+          npx tsc
+          git add -A
+          git commit -m build
 
       - name: Bump version
         env:
