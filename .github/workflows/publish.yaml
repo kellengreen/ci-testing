@@ -1,9 +1,9 @@
 name: "Publish"
 
 on:
-  push:
+  create:
     branches:
-      - "release/v*"
+      - release/*
 
 jobs:
   publish:
