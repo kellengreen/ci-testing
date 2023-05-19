@@ -17,11 +17,13 @@ jobs:
       )
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Source
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
 
-      - uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: latest
 
@@ -38,13 +40,13 @@ jobs:
 
       - name: Version Bump
         env:
-          version_bump: |
+          version: |
             ${{
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' ||
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
               contains(github.event.pull_request.labels.*.name, 'major') && 'major' || '-'
             }}
-        run: npm version $version_bump
+        run: npm version $version
 
       - name: Commit New Version
         run: git push
