@@ -21,6 +21,9 @@ jobs:
           github: ${{ toJSON(github) }}
         run: echo $github
 
+      - name: X
+        run: echo $github.ref
+
       - name: Checkout Source
         uses: actions/checkout@v3
         with:
@@ -48,7 +51,7 @@ jobs:
             ${{
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' ||
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
-              contains(github.event.pull_request.labels.*.name, 'major') && 'major' || '-'
+              contains(github.event.pull_request.labels.*.name, 'major') && 'major' || 'minor'
             }}
         run: npm version $new_version
 
@@ -64,7 +67,7 @@ jobs:
       #         draft: false,
       #         generate_release_notes: true,
       #         name: process.env.RELEASE_TAG,
-      #         owner: context.repo.owner,
+      #         owner: $github.repository_owner,
       #         prerelease: false,
       #         repo: context.repo.repo,
       #         tag_name: process.env.RELEASE_TAG,
