@@ -8,7 +8,7 @@ on:
 jobs:
   distribution:
     if: |
-      github.event.head_commit.committer.name != 'github-action' &&
+      github.event.head_commit.committer.name != 'github-action'
     #   (
     #     contains(github.event.pull_request.labels.*.name, 'patch') ||
     #     contains(github.event.pull_request.labels.*.name, 'minor') ||
