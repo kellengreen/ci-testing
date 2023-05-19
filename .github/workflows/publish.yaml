@@ -44,13 +44,13 @@ jobs:
 
       - name: Version Bump
         env:
-          version_x: |
+          new_version: |
             ${{
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' ||
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
               contains(github.event.pull_request.labels.*.name, 'major') && 'major' || 'minor'
             }}
-        run: npm version $version_x
+        run: npm version $new_version
 
       - name: Commit New Version
         run: git push
