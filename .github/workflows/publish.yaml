@@ -40,7 +40,7 @@ jobs:
           git config user.email 'github-actions@github.com'
 
       - name: Build From Source
-        run: npm run build
+        run: npx tsc --noEmit
 
       - name: Version Bump
         env:
