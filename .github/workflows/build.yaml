@@ -9,11 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Context
+      - name: Print github
         env:
-          github: ${{ toJSON(github) }}
+          json_github: ${{ toJSON(github) }}
         run: |
-          echo $github
+          echo $json_github
+
+      - name: Print env
+        env:
+          json_env: ${{ toJSON(env) }}
+        run: |
+          echo $json_env
 
       - name: Checkout source
         uses: actions/checkout@v3
@@ -44,13 +50,13 @@ jobs:
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch'
             }}
         run: |
-          echo "VERSION=$( \
-            npm version $(npx semver -i $level 1.0.24) --git-tag-version=false \
+          echo "version=$( \
+            npm version $(npx semver -i $level 1.0.25) --git-tag-version=false \
           )" >> ${GITHUB_ENV}
 
       - name: Commit release branch
         run: |
           git add -A
-          git commit -m ${VERSION}
-          git checkout -b "release/${VERSION}"
+          git commit -m ${{ env.version }}
+          git checkout -b "release/${{ env.version }}"
           git push origin HEAD
