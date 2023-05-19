@@ -8,7 +8,7 @@ on:
 jobs:
   distribution:
     if: |
-      github.event.head_commit.committer.name != 'github-action'
+      github.event.head_commit.committer.name != 'github-action' &&
     #   (
     #     contains(github.event.pull_request.labels.*.name, 'patch') ||
     #     contains(github.event.pull_request.labels.*.name, 'minor') ||
@@ -21,8 +21,10 @@ jobs:
           github: ${{ toJSON(github) }}
         run: echo $github
 
-      - name: X
-        run: echo $github
+      - name: Print context
+        env:
+          github: ${{ toJSON(context) }}
+        run: echo context
 
       - name: Checkout Source
         uses: actions/checkout@v3
@@ -58,17 +60,18 @@ jobs:
       - name: Commit New Version
         run: git push
 
-      # - name: Create release
-      #   uses: "actions/github-script@v6"
-      #   with:
-      #     github-token: "${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}"
-      #     script: |
-      #       await github.rest.repos.createRelease({
-      #         draft: false,
-      #         generate_release_notes: true,
-      #         name: process.env.RELEASE_TAG,
-      #         owner: $github.repository_owner,
-      #         prerelease: false,
-      #         repo: context.repo.repo,
-      #         tag_name: process.env.RELEASE_TAG,
-      #       });
+      - name: Create Release
+        uses: "actions/github-script@v6"
+        env:
+          owner: ${{ toJSON(github) }}
+        with:
+          github-token: "${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}"
+          script: |
+            await github.rest.repos. ({
+              generate_release_notes: true,
+              name: process.env.RELEASE_TAG,
+              owner: $github.repository_owner,
+              prerelease: false,
+              repo: context.repo.repo,
+              tag_name: process.env.RELEASE_TAG,
+            });
