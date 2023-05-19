@@ -7,6 +7,8 @@ on:
 
 jobs:
   build:
+    if: |
+      github.event.head_commit.committer.name != 'github-action'
     # if: |
     #   (
     #     contains(github.event.pull_request.labels.*.name, 'patch') ||
