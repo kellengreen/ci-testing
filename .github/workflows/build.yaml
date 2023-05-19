@@ -45,7 +45,7 @@ jobs:
             }}
         run: |
           echo "VERSION=$( \
-            npm version $(npx semver -i $level 1.0.20) --git-tag-version=false --allow-same-version \
+            npm version $(npx semver -i $level 1.0.21) --git-tag-version=false --allow-same-version \
           )" >> ${GITHUB_ENV}
 
       - name: Commit release branch
