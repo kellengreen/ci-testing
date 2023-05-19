@@ -1,20 +1,19 @@
 name: "Publish"
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
-      - "main"
+      - main
 
 jobs:
   distribution:
-    if: |
-      github.event.pull_request.merged == true &&
-      (
-        contains(github.event.pull_request.labels.*.name, 'patch') ||
-        contains(github.event.pull_request.labels.*.name, 'minor') ||
-        contains(github.event.pull_request.labels.*.name, 'major')
-      )
+    # if: |
+    #   github.event.pull_request.merged == true &&
+    #   (
+    #     contains(github.event.pull_request.labels.*.name, 'patch') ||
+    #     contains(github.event.pull_request.labels.*.name, 'minor') ||
+    #     contains(github.event.pull_request.labels.*.name, 'major')
+    #   )
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source
