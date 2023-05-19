@@ -7,8 +7,8 @@ on:
 
 jobs:
   distribution:
-    # if: |
-    #   github.event.pull_request.merged == true &&
+    if: |
+      github.event.head_commit.commiter.name != 'github-action'
     #   (
     #     contains(github.event.pull_request.labels.*.name, 'patch') ||
     #     contains(github.event.pull_request.labels.*.name, 'minor') ||
@@ -40,7 +40,7 @@ jobs:
           git config user.email 'github-actions@github.com'
 
       - name: Build From Source
-        run: npx tsc --noEmit
+        run: npx tsc
 
       - name: Version Bump
         env:
@@ -48,7 +48,7 @@ jobs:
             ${{
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' ||
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
-              contains(github.event.pull_request.labels.*.name, 'major') && 'major' || 'minor'
+              contains(github.event.pull_request.labels.*.name, 'major') && 'major' || '-'
             }}
         run: npm version $new_version
 
