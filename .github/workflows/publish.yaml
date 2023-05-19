@@ -16,12 +16,9 @@ jobs:
     #   )
     runs-on: ubuntu-latest
     steps:
-      - name: Print github
-        env:
-          github: ${{ toJSON(github) }}
-        run: echo $github
-
       - name: Print context
+        env:
+          context: ${{ toJSON(context) }}
         run: echo context
 
       - name: Checkout Source
