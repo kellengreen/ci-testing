@@ -15,26 +15,26 @@ jobs:
     #   )
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Source
+      - name: Checkout source
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: latest
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Configure Git
+      - name: Configure git
         run: |
           git config user.name 'github-action'
           git config user.email 'github-actions@github.com'
 
-      - name: Build From Source
+      - name: Build from source
         run: npx tsc
 
-      - name: Version Bump
+      - name: Version bump
         env:
           new_version: |
             ${{
@@ -45,7 +45,6 @@ jobs:
         # run: npm version $new_version
         run: npm version patch
 
-      - name: Create Release Branch
+      - name: Create release branch
         run: |
-          git checkout -b "release/$(git log -n 1 --pretty=%s)"
-          git push origin HEAD
+          git push
