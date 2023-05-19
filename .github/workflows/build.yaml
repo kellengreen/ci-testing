@@ -44,12 +44,11 @@ jobs:
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch'
             }}
         run: |
-          npm version $(npx semver -i $level 1.0.10) --git-tag-version=false
+          echo "VERSION=$(npm version $(npx semver -i $level 1.0.15) --git-tag-version=false)" >> ${GITHUB_ENV}
 
       - name: Commit release branch
         run: |
-          set VERSION=$(node -e "console.log(require('./package.json').version)")
           git add -A
-          git commit -m $VERSION
-          git checkout -b "release/$VERSION"
+          git commit -m ${VERSION}
+          git checkout -b "release/${VERSION}"
           git push origin HEAD
