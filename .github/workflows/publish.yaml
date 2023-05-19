@@ -19,10 +19,8 @@ jobs:
       - name: Print Context
         env:
           github: ${{ toJSON(github) }}
-          env: ${{ toJSON(env) }}
         run: |
           echo $github
-          echo $env
 
       - name: Checkout Source
         uses: actions/checkout@v3
@@ -63,13 +61,4 @@ jobs:
         with:
           github-token: "${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}"
           script: |
-            console.log(context);
-            console.log(process);
-            # await github.rest.repos. ({
-            #   generate_release_notes: true,
-            #   name: process.env.RELEASE_TAG,
-            #   owner: context.github.repository_owner,
-            #   prerelease: false,
-            #   repo: context.repo.repo,
-            #   tag_name: process.env.RELEASE_TAG,
-            # });
+            console.log(JSON.stringify(context, undefined, 2));
