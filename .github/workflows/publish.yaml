@@ -26,11 +26,6 @@ jobs:
         with:
           token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
 
-      - name: Configure Git
-        run: |
-          git config user.name 'github-action'
-          git config user.email 'github-actions@github.com'
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -39,18 +34,23 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Configure Git
+        run: |
+          git config user.name 'github-action'
+          git config user.email 'github-actions@github.com'
+
       - name: Build From Source
         run: npm run build
 
       - name: Version Bump
         env:
-          version: |
+          version_x: |
             ${{
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' ||
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
               contains(github.event.pull_request.labels.*.name, 'major') && 'major' || 'minor'
             }}
-        run: npm version $version
+        run: npm version $version_x
 
       - name: Commit New Version
         run: git push
