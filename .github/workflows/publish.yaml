@@ -8,12 +8,7 @@ on:
 jobs:
   distribution:
     if: |
-      github.event.head_commit.committer.name != 'github-action'
-    #   (
-    #     contains(github.event.pull_request.labels.*.name, 'patch') ||
-    #     contains(github.event.pull_request.labels.*.name, 'minor') ||
-    #     contains(github.event.pull_request.labels.*.name, 'major')
-    #   )
+      github.event.head_commit.committer.name == 'github-action'
     runs-on: ubuntu-latest
     steps:
       - name: Print Context
@@ -24,41 +19,18 @@ jobs:
 
       - name: Checkout Source
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: latest
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Configure Git
-        run: |
-          git config user.name 'github-action'
-          git config user.email 'github-actions@github.com'
-
-      - name: Build From Source
-        run: npx tsc
-
-      - name: Version Bump
-        env:
-          new_version: |
-            ${{
-              contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' ||
-              contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
-              contains(github.event.pull_request.labels.*.name, 'major') && 'major' || 'minor'
-            }}
-        run: npm version $new_version
-
-      - name: Commit New Version
-        run: git push
 
       - name: Create Release
         uses: "actions/github-script@v6"
         with:
           github-token: "${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}"
           script: |
-            console.log(JSON.stringify(context, undefined, 2));
+            console.log('XXX');
+            /*
+            await github.rest.repos.createRelease({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               name: process.env.RELEASE_TAG,
+               tag_name: process.env.RELEASE_TAG,
+            });
+             */
