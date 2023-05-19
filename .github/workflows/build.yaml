@@ -7,13 +7,13 @@ on:
 
 jobs:
   build:
-    if: |
-      github.event.head_commit.committer.name != 'github-action'
-    #   (
-    #     contains(github.event.pull_request.labels.*.name, 'patch') ||
-    #     contains(github.event.pull_request.labels.*.name, 'minor') ||
-    #     contains(github.event.pull_request.labels.*.name, 'major')
-    #   )
+    # if: |
+    #   github.event.head_commit.committer.name != 'github-action'
+    # #   (
+    # #     contains(github.event.pull_request.labels.*.name, 'patch') ||
+    # #     contains(github.event.pull_request.labels.*.name, 'minor') ||
+    # #     contains(github.event.pull_request.labels.*.name, 'major')
+    # #   )
     runs-on: ubuntu-latest
     steps:
       - name: Print Context
@@ -24,8 +24,6 @@ jobs:
 
       - name: Checkout Source
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -54,17 +52,6 @@ jobs:
         run: npm version $new_version
 
       - name: Commit New Version
-        run: git push
-
-      - name: Create Release
-        uses: "actions/github-script@v6"
-        with:
-          github-token: "${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}"
-          script: |
-            await github.rest.repos.createRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              # generate_release_notes: true,
-              name: process.env.RELEASE_TAG,
-              tag_name: process.env.RELEASE_TAG,
-            });
+        run: |
+          git checkout -b foo
+          git push
