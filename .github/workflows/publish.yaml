@@ -26,6 +26,11 @@ jobs:
         with:
           token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
 
+      - name: Configure Git
+        run: |
+          git config user.name 'github-action'
+          git config user.email 'github-actions@github.com'
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -46,11 +51,6 @@ jobs:
               contains(github.event.pull_request.labels.*.name, 'major') && 'major' || 'minor'
             }}
         run: npm version $version
-
-      - name: Configure Git
-        run: |
-          git config user.name 'github-action'
-          git config user.email 'github-actions@github.com'
 
       - name: Commit New Version
         run: git push
