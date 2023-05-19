@@ -29,11 +29,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Configure Git
-        run: |
-          git config user.name 'github-action'
-          git config user.email 'github-actions@github.com'
-
       - name: Build From Source
         run: npm run build
 
@@ -46,6 +41,11 @@ jobs:
               contains(github.event.pull_request.labels.*.name, 'major') && 'major' || 'minor'
             }}
         run: npm version $version
+
+      - name: Configure Git
+        run: |
+          git config user.name 'github-action'
+          git config user.email 'github-actions@github.com'
 
       - name: Commit New Version
         run: git push
