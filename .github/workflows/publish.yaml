@@ -8,7 +8,7 @@ on:
 jobs:
   distribution:
     if: |
-      github.event.head_commit.commiter.name != 'github-action'
+      github.event.head_commit.committer.name != 'github-action'
     #   (
     #     contains(github.event.pull_request.labels.*.name, 'patch') ||
     #     contains(github.event.pull_request.labels.*.name, 'minor') ||
@@ -22,7 +22,7 @@ jobs:
         run: echo $github
 
       - name: X
-        run: echo $github.ref
+        run: echo $github
 
       - name: Checkout Source
         uses: actions/checkout@v3
