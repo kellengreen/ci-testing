@@ -16,10 +16,13 @@ jobs:
     #   )
     runs-on: ubuntu-latest
     steps:
-      - name: Print context
+      - name: Print Context
         env:
           github: ${{ toJSON(github) }}
-        run: echo $github
+          env: ${{ toJSON(env) }}
+        run: |
+          echo $github
+          echo $env
 
       - name: Checkout Source
         uses: actions/checkout@v3
