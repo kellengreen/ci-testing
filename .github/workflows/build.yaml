@@ -9,6 +9,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Print Context
+        env:
+          github: ${{ toJSON(github) }}
+        run: |
+          echo $github
+
       - name: Checkout source
         uses: actions/checkout@v3
 
@@ -28,16 +34,17 @@ jobs:
       - name: Build from source
         run: npx tsc
 
-      - name: Version bump
+      - name: Bump version
         env:
-          new_version: |
+          level: |
             ${{
               contains(github.event.pull_request.labels.*.name, 'major') && 'major' ||
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch'
             }}
         # run: npm version $new_version
-        run: npm version patch
+        run: |
+          npm version $(npx semver -i $level 1.0.0)
 
       - name: Commit release branch
         run: |
