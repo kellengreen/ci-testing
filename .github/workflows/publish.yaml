@@ -1,36 +1,22 @@
-# name: "Publish"
+name: "Publish"
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - foo
 
-# jobs:
-#   publish:
-#     if: |
-#       github.event.head_commit.committer.name == 'github-action'
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Print Context
-#         env:
-#           github: ${{ toJSON(github) }}
-#         run: |
-#           echo $github
-
-#       - name: Checkout Source
-#         uses: actions/checkout@v3
-
-#       - name: Create Release
-#         uses: "actions/github-script@v6"
-#         with:
-#           github-token: "${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}"
-#           script: |
-#             console.log(context);
-#             /*
-#             await github.rest.repos.createRelease({
-#                owner: context.repo.owner,
-#                repo: context.repo.repo,
-#                name: process.env.RELEASE_TAG,
-#                tag_name: process.env.RELEASE_TAG,
-#             });
-#              */
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        uses: "actions/github-script@v6"
+        with:
+          github-token: "${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}"
+          script: |
+            await github.rest.repos.createRelease({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               name: process.env.RELEASE_TAG,
+               tag_name: process.env.RELEASE_TAG,
+            });

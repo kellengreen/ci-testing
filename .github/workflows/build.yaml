@@ -54,4 +54,4 @@ jobs:
       - name: Commit New Version
         run: |
           git checkout -b foo
-          git push
+          git push origin HEAD
