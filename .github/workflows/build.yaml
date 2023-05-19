@@ -1,4 +1,4 @@
-name: "Publish"
+name: "Build"
 
 on:
   push:
@@ -8,20 +8,13 @@ on:
 jobs:
   build:
     # if: |
-    #   github.event.head_commit.committer.name != 'github-action'
-    # #   (
-    # #     contains(github.event.pull_request.labels.*.name, 'patch') ||
-    # #     contains(github.event.pull_request.labels.*.name, 'minor') ||
-    # #     contains(github.event.pull_request.labels.*.name, 'major')
-    # #   )
+    #   (
+    #     contains(github.event.pull_request.labels.*.name, 'patch') ||
+    #     contains(github.event.pull_request.labels.*.name, 'minor') ||
+    #     contains(github.event.pull_request.labels.*.name, 'major')
+    #   )
     runs-on: ubuntu-latest
     steps:
-      - name: Print Context
-        env:
-          github: ${{ toJSON(github) }}
-        run: |
-          echo $github
-
       - name: Checkout Source
         uses: actions/checkout@v3
 
@@ -45,13 +38,14 @@ jobs:
         env:
           new_version: |
             ${{
-              contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' ||
+              contains(github.event.pull_request.labels.*.name, 'major') && 'major' ||
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
-              contains(github.event.pull_request.labels.*.name, 'major') && 'major' || 'minor'
+              contains(github.event.pull_request.labels.*.name, 'patch') && 'patch'
             }}
-        run: npm version $new_version
+        # run: npm version $new_version
+        run: npm version patch
 
       - name: Commit New Version
         run: |
-          git checkout -b foo
+          git checkout -b "release/$(git log -n 1 --pretty=%s)"
           git push origin HEAD
