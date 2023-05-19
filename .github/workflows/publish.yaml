@@ -22,8 +22,6 @@ jobs:
         run: echo $github
 
       - name: Print context
-        env:
-          github: ${{ toJSON(context) }}
         run: echo context
 
       - name: Checkout Source
