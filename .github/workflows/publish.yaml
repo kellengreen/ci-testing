@@ -43,7 +43,7 @@ jobs:
             ${{
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' ||
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
-              contains(github.event.pull_request.labels.*.name, 'major') && 'major' || '-'
+              contains(github.event.pull_request.labels.*.name, 'major') && 'major' || 'minor'
             }}
         run: npm version $version
 
