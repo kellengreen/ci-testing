@@ -16,6 +16,11 @@ jobs:
     #   )
     runs-on: ubuntu-latest
     steps:
+      - name: Print github
+        env:
+          github: ${{ toJSON(github) }}
+        run: echo $github
+
       - name: Checkout Source
         uses: actions/checkout@v3
         with:
