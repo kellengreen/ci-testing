@@ -6,7 +6,6 @@
     "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "strictNullChecks": true,
-    "noEmit": true,
   },
   "files": ["src/main.ts"]
 }
