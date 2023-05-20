@@ -36,9 +36,11 @@ jobs:
           git config user.name 'github-action'
           git config user.email 'github-actions@github.com'
 
-      - name: Build from source
+      - name: Print github
+        env:
+          steps: ${{ toJSON(steps) }}
         run: |
-          npx tsc
+          echo $steps
 
       - name: Get latest version2
         uses: actions/github-script@v6
@@ -49,7 +51,11 @@ jobs:
               repo: context.repo.repo,
               release_id: 'latest',
             });
-            console.log(resul)
+            console.log(result)
+            return result
+
+- name: Get result
+  run: echo "${{steps.set-result.outputs.result}}"
 
       - name: Get latest version
         run: |
