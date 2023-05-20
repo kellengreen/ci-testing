@@ -44,6 +44,6 @@ jobs:
           script: |
             console.log(process.env.labels)
             const labels = JSON.parse(process.env.labels);
-            for (let lable of labels) {
+            for (let label of labels) {
               console.log(label)
             }
