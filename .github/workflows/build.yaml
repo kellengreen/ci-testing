@@ -42,13 +42,14 @@ jobs:
         with:
           result-encoding: string
           script: |
-            semver.inc('v1.2.3', 'patch');
+            const semver = require('semver')
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: 'latest',
             });
-            return result.data.name
+            const nextVersion = semver.inc(result.data.name, 'minor');
+            return nextVersion
 
       - name: Bump version
         env:
