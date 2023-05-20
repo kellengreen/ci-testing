@@ -42,7 +42,7 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const {default: semver} = await import('semver')
+            const { default: semver } = await import('${{ github.workspace }}/node_modules/semver/bin/semver.js')
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
