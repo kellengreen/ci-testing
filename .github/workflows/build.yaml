@@ -40,6 +40,17 @@ jobs:
         run: |
           npx tsc
 
+      - name: Get latest version2
+        uses: actions/github-script@v6
+        script: |
+          const response = await github.rest.repos.getRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            release_id,
+          });
+          const json = await response.json()
+          console.log(json)
+
       - name: Get latest version
         run: |
           echo "latest_version=$( \
