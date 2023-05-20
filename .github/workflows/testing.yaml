@@ -42,4 +42,4 @@ jobs:
         with:
           result-encoding: string
           script: |
-            console.log(context)
+            console.log(process)
