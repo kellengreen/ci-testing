@@ -43,7 +43,7 @@ jobs:
       - name: Get latest version
         run: |
           echo "latest_version=$( \
-            curl -s https://api.github.com/repos/kellengreen/ci-testing/releases/latest | jq .body
+            curl -s https://api.github.com/repos/kellengreen/ci-testing/releases/latest | jq -r .body
           )" >> ${GITHUB_ENV}
           echo ${{ env.latest_version }}
 
