@@ -40,7 +40,6 @@ jobs:
         uses: actions/github-script@v6
         id: latest-version
         with:
-          result-encoding: string
           script: |
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
