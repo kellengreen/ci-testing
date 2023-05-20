@@ -42,4 +42,8 @@ jobs:
         with:
           result-encoding: string
           script: |
-            console.log(process)
+            console.log(process.env.labels)
+            const labels = JSON.parse(process.env.labels);
+            for (let lable of labels) {
+              console.log(label)
+            }
