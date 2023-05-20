@@ -35,4 +35,4 @@ jobs:
         with:
           result-encoding: string
           script: |
-            console.log(context.env)
+            console.log(context)
