@@ -38,6 +38,7 @@ jobs:
 
       - name: Get latest version2
         uses: actions/github-script@v6
+        id: latest-version
         with:
           result-encoding: string
           script: |
@@ -46,14 +47,11 @@ jobs:
               repo: context.repo.repo,
               release_id: 'latest',
             });
-            console.log(result.data.name)
             return result.data.name
 
-      - name: Print step
-        env:
-          steps: ${{ toJSON(steps) }}
+      - name: Print steps
         run: |
-          echo $steps
+          echo ${{ toJSON(steps) }}
 
       - name: Get latest version
         run: |
