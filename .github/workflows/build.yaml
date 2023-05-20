@@ -40,7 +40,7 @@ jobs:
         uses: actions/github-script@v6
         id: next-version
         env:
-          labels: ${{ toJson(github.event.pull_request.labels) }}
+          labels: ${{ toJson(github.event.pull_request.labels || '[]') }}
         with:
           result-encoding: string
           script: |
@@ -50,7 +50,7 @@ jobs:
               repo: context.repo.repo,
               release_id: 'latest',
             })
-            console.log(context.env)
+            console.log(context)
             return semver.inc(result.data.name, 'minor')
 
       - name: Bump version
@@ -63,3 +63,16 @@ jobs:
           git commit -m ${{ steps.next-version.outputs.result }}
           git checkout -b "release/${{ steps.next-version.outputs.result }}"
           git push origin HEAD
+
+      - name: Create release
+        run: |
+          curl https://api.github.com/repos/${{ github.repository }}/releases \
+            -s \
+            --fail-with-body \
+            -X POST \
+            -H 'Authorization: Bearer ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}' \
+            -d '{
+              "name": "v.1.2.3",
+              "tag_name": "v1.2.3",
+              "target_commitish": "${{ github.ref_name }}"
+            }'
