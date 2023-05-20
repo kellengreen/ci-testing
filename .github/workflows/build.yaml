@@ -36,27 +36,19 @@ jobs:
           git config user.name 'github-action'
           git config user.email 'github-actions@github.com'
 
-      - name: Get latest version2
+      - name: Get next version
         uses: actions/github-script@v6
         id: latest-version
         with:
+          result-encoding: string
           script: |
+            semver.inc('v1.2.3', 'patch');
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: 'latest',
             });
             return result.data.name
-
-      - name: Print steps
-        run: |
-          echo ${{ toJSON(steps) }}
-
-      - name: Get latest version
-        run: |
-          echo "latest_version=$( \
-            curl -fs https://api.github.com/repos/kellengreen/ci-testing/releases/latest | jq -r .body
-          )" >> ${GITHUB_ENV}
 
       - name: Bump version
         env:
@@ -67,9 +59,7 @@ jobs:
               contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' || ''
             }}
         run: |
-          echo "new_version=$( \
-            npm version $(npx semver -i $level ${{ env.latest_version }}) --git-tag-version=false \
-          )" >> ${GITHUB_ENV}
+          npm version $(npx semver -i $level ${{ steps.latest-version.outputs.result }}) --git-tag-version=false
 
       - name: Commit release branch
         run: |
