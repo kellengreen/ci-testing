@@ -10,7 +10,14 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
+      - name: Print github
+        env:
+          json_github: ${{ toJSON(github) }}
+        run: |
+          echo $json_github
+
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
           node-version: "latest"
