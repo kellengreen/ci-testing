@@ -46,10 +46,10 @@ jobs:
               repo: context.repo.repo,
               release_id: 'latest',
             });
-            console.log(result)
+            console.log(result.data.name)
             return result.data.name
 
-      - name: Print github
+      - name: Print step
         env:
           steps: ${{ toJSON(steps) }}
         run: |
