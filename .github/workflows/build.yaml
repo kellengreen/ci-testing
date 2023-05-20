@@ -36,12 +36,6 @@ jobs:
           git config user.name 'github-action'
           git config user.email 'github-actions@github.com'
 
-      - name: Print github
-        env:
-          steps: ${{ toJSON(steps) }}
-        run: |
-          echo $steps
-
       - name: Get latest version2
         uses: actions/github-script@v6
         with:
@@ -54,8 +48,11 @@ jobs:
             console.log(result)
             return result
 
-- name: Get result
-  run: echo "${{steps.set-result.outputs.result}}"
+      - name: Print github
+        env:
+          steps: ${{ toJSON(steps) }}
+        run: |
+          echo $steps
 
       - name: Get latest version
         run: |
