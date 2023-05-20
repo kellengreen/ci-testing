@@ -39,6 +39,7 @@ jobs:
       - name: Get latest version2
         uses: actions/github-script@v6
         with:
+          result-encoding: string
           script: |
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
@@ -46,7 +47,7 @@ jobs:
               release_id: 'latest',
             });
             console.log(result)
-            return result
+            return result.data.name
 
       - name: Print github
         env:
