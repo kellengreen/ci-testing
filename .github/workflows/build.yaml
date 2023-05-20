@@ -39,6 +39,13 @@ jobs:
       - name: Get next version
         uses: actions/github-script@v6
         id: latest-version
+        env:
+          level: |
+            ${{
+              contains(github.event.pull_request.labels.*.name, 'major') && 'major' ||
+              contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
+              contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' || 'xxx'
+            }}
         with:
           result-encoding: string
           script: |
@@ -49,8 +56,7 @@ jobs:
               release_id: 'latest',
             });
 
-            console.log(context
-            )
+            console.log(context)
             return semver.inc(result.data.name, 'minor')
 
       - name: Bump version
