@@ -48,9 +48,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: 'latest',
-            });
-            const json = await response.json()
-            console.log(json)
+            });fd
+            console.log(response)
 
       - name: Get latest version
         run: |
