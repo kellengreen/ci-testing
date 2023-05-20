@@ -18,6 +18,9 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
         with:
+          # Needed to trigger release/* events
+          # https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
+          # "events triggered by the GITHUB_TOKEN ... will not create a new workflow run"
           token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
 
       - name: Setup node
@@ -37,17 +40,24 @@ jobs:
         run: |
           npx tsc
 
+      - name: Get latest version
+        run: |
+          echo "latest_version=$( \
+            curl -s https://api.github.com/repos/kellengreen/ci-testing/releases/latest | jq .body
+          )" >> ${GITHUB_ENV}
+          echo ${{ env.latest_version }}
+
       - name: Bump version
         env:
           level: |
             ${{
               contains(github.event.pull_request.labels.*.name, 'major') && 'major' ||
               contains(github.event.pull_request.labels.*.name, 'minor') && 'minor' ||
-              contains(github.event.pull_request.labels.*.name, 'patch') && 'patch'
+              contains(github.event.pull_request.labels.*.name, 'patch') && 'patch' || ''
             }}
         run: |
           echo "version=$( \
-            npm version $(npx semver -i $level 1.0.26) --git-tag-version=false \
+            npm version $(npx semver -i $level 1.0.27) --git-tag-version=false \
           )" >> ${GITHUB_ENV}
 
       - name: Commit release branch
