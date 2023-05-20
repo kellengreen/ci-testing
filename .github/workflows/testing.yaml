@@ -24,7 +24,7 @@ jobs:
       - name: Unit Tests
         run: npm run test:ci
 
-      - name: Build Time Validation
+      - name: Build time validation
         run: npm run build:ci
 
       - name: Get next version
