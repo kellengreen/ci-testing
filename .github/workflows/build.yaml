@@ -40,7 +40,7 @@ jobs:
         uses: actions/github-script@v6
         id: next-version
         env:
-          labels: ${{ toJson(github.event.pull_request.labels || '[]') }}
+          labels: ${{ toJson(github.event.pull_request.labels) }}
         with:
           result-encoding: string
           script: |

@@ -26,3 +26,13 @@ jobs:
 
       - name: Build Time Validation
         run: npm run build:ci
+
+      - name: Get next version
+        uses: actions/github-script@v6
+        id: next-version
+        env:
+          labels: ${{ toJson(github.event.pull_request.labels) }}
+        with:
+          result-encoding: string
+          script: |
+            console.log(context.env)
