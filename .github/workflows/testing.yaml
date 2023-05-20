@@ -25,7 +25,7 @@ jobs:
         run: npm run test:ci
 
       - name: Build time validation
-        run: npm run build
+        run: npm run build:ci
 
       - name: Get next version
         uses: actions/github-script@v6
