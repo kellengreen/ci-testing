@@ -42,12 +42,15 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const { default: semver } = await import('${{ github.workspace }}/node_modules/semver/bin/semver.js')
+            const semver = require('semver')
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: 'latest',
             });
+
+            console.log(context
+            )
             return semver.inc(result.data.name, 'minor')
 
       - name: Bump version
