@@ -41,8 +41,9 @@ jobs:
           result-encoding: string
           script: |
             const { default: getReleaseLevel } = await import('${{ github.workspace }}/script/getReleaseLevel.js');
-            const labels = JSON.parse(${{ toJson(github.event.pull_request.labels) }});
-            console.dir(labels);
+            const labels = ${{ toJson(github.event.pull_request.labels) }};
+            console.log(labels);
+            console.log(typeof labels);
             const releaseLevel = getReleaseLevel(labels);
             console.log(releaseLevel);
             return releaseLevel;
