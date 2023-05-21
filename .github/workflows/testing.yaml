@@ -37,13 +37,12 @@ jobs:
       - name: Get next version
         uses: actions/github-script@v6
         id: next-version
-        env:
-          labels: ${{ toJson(github.event.pull_request.labels) }}
         with:
           result-encoding: string
           script: |
-            console.log(process.env.labels)
-            const labels = JSON.parse(process.env.labels);
-            for (let label of labels) {
-              console.log(label)
-            }
+            const { default: getReleaseLevel } = await import('${{ github.workspace }}/script/getReleaseLevel.js');
+            const labels = ${{ github.event.pull_request.labels }};
+            console.dir(labels);
+            const releaseLevel = getReleaseLevel(labels);
+            console.log(releaseLevel);
+            return releaseLevel;
