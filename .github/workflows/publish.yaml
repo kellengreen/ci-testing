@@ -1,29 +1,63 @@
-name: "Publish"
+name: "Build"
 
 on:
   push:
     branches:
-      - release/*
+      - main
 
 jobs:
-  publish:
+  build:
+    # if: ${{ contains(join(github.event.pull_request.labels), 'release/') }}
     runs-on: ubuntu-latest
     steps:
-      - name: Print github
-        env:
-          github: ${{ toJSON(github) }}
-        run: |
-          echo $github
+      - uses: actions/checkout@v3
 
-      - name: Create release
-        run: |
-          curl https://api.github.com/repos/${{ github.repository }}/releases \
-            -s \
-            --fail-with-body \
-            -X POST \
-            -H 'Authorization: Bearer ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}' \
-            -d '{
-              "name": "v.1.2.3",
-              "tag_name": "v1.2.3",
-              "target_commitish": "${{ github.ref_name }}"
-            }'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      - run: npm install
+
+      - name: Get next version
+        uses: actions/github-script@v6
+        id: next-version
+        with:
+          result-encoding: string
+          script: |
+            const semver = require("semver");
+            const labels = JSON.parse("${{ toJson(github.event.pull_request.labels) }}");
+            const label = labels.find((label) => label.name.startsWith("release/"));
+            cons [,release] = label.split("/", 2);
+            if (!release) {
+              throw Error("No release label detected")
+            }
+            const result = await github.rest.repos.getRelease({
+              owner: context.repo.owner,
+              repo: 'dotcom',
+              release_id: "latest",
+            });
+            console.log(result);
+            return semver.inc(result.data.tag_name, release);
+
+      # - name: Bump version
+      #   run: |
+      #     npm version ${{ steps.next-version.outputs.result }} --git-tag-version=false
+
+      # - name: Commit release branch
+      #   run: |
+      #     git config user.name 'github-action'
+      #     git config user.email 'github-actions@github.com'
+      #     git add -A
+      #     git commit -m '${{ steps.next-version.outputs.result }}'
+      #     git checkout -b '${{ steps.next-version.outputs.result }}'
+      #     git push origin HEAD
+
+      # - name: Create release
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       await github.rest.repos.createRelease({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         tag_name: "${{ steps.next-version.outputs.result }}",
+      #       });
