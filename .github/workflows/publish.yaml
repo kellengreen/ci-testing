@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    if: ${{ contains(join(github.event.pull_request.labels), 'release/') }}
+    if: ${{ contains(join(github.event.pull_request.labels.*.name), 'release/') }}fdsaf
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
