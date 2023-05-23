@@ -29,7 +29,7 @@ jobs:
 
       - name: Get release version
         uses: actions/github-script@v6
-        id: release-version
+        id: version
         with:
           result-encoding: string
           script: |
@@ -45,33 +45,34 @@ jobs:
               repo: context.repo.repo,
               release_id: "latest",
             });
-            const releaseVersion = semver.inc(result.data.tag_name, release);
-            if (!releaseVersion) {
+            const version = semver.inc(result.data.tag_name, release);
+            if (!version) {
               throw Error("Release version could not be generated")
             }
-            return releaseVersion;
+            return version;
 
       - name: Bump version
         run: |
-          npm version ${{ steps.release-version.outputs.result }} --git-tag-version=false
+          npm version ${{ steps.version.outputs.result }} --git-tag-version=false
 
       - name: Commit release branch
         run: |
           git config user.name 'github-action'
           git config user.email 'github-actions@github.com'
           git add -A
-          git commit -m '${{ steps.release-version.outputs.result }}'
-          git checkout -b '${{ steps.release-version.outputs.result }}'
+          git commit -m '${{ steps.version.outputs.result }}'
+          git checkout -b '${{ steps.version.outputs.result }}'
           git push origin HEAD
 
       - name: Create release
         uses: actions/github-script@v6
         with:
           script: |
+            const version = "${{ steps.version.outputs.result }}";
             await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: "${{ steps.release-version.outputs.result }}",
-              tag_name: "${{ steps.release-version.outputs.result }}",
-              prerelease: "${{ steps.release-version.outputs.result }}".includes("-"),
+              name: version,
+              tag_name: version,
+              prerelease: version.includes("-"),
             });
