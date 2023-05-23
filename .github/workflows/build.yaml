@@ -32,7 +32,7 @@ jobs:
             // const labels = JSON.parse("${{ toJson(github.event.pull_request.labels) }}");
             const labels = ['patch'];
             const releases = ["major", "minor", "patch"];
-            const label = labels.find((label) => releases.contains(label.name));
+            const label = labels.find((label) => releases.includes(label.name));
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
