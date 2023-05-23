@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    # if: ${{ contains(join(github.event.pull_request.labels), 'release/') }}
+    if: ${{ contains(join(github.event.pull_request.labels), 'release/') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,41 +25,38 @@ jobs:
           result-encoding: string
           script: |
             const semver = require("semver");
-            /*
             const labels = JSON.parse("${{ toJson(github.event.pull_request.labels) }}");
             const label = labels.find((label) => label.name.startsWith("release/"));
-            const [,release] = label.split("/", 2);
+            const [,release] = label.name.split("/", 2);
             if (!release) {
               throw Error("No release label detected")
             }
-            */
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
-              repo: 'dotcom',
+              repo: context.repo.repo,
               release_id: "latest",
             });
-            console.log(result);
-            // return semver.inc(result.data.tag_name, release);
+            return semver.inc(result.data.tag_name, release);
 
-      # - name: Bump version
-      #   run: |
-      #     npm version ${{ steps.next-version.outputs.result }} --git-tag-version=false
+      - name: Bump version
+        run: |
+          npm version ${{ steps.next-version.outputs.result }} --git-tag-version=false
 
-      # - name: Commit release branch
-      #   run: |
-      #     git config user.name 'github-action'
-      #     git config user.email 'github-actions@github.com'
-      #     git add -A
-      #     git commit -m '${{ steps.next-version.outputs.result }}'
-      #     git checkout -b '${{ steps.next-version.outputs.result }}'
-      #     git push origin HEAD
+      - name: Commit release branch
+        run: |
+          git config user.name 'github-action'
+          git config user.email 'github-actions@github.com'
+          git add -A
+          git commit -m '${{ steps.next-version.outputs.result }}'
+          git checkout -b '${{ steps.next-version.outputs.result }}'
+          git push origin HEAD
 
-      # - name: Create release
-      #   uses: actions/github-script@v6
-      #   with:
-      #     script: |
-      #       await github.rest.repos.createRelease({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         tag_name: "${{ steps.next-version.outputs.result }}",
-      #       });
+      - name: Create release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: "${{ steps.next-version.outputs.result }}",
+            });
