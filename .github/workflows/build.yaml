@@ -17,11 +17,6 @@ jobs:
 
       - run: npm install
 
-      - name: Configure git
-        run: |
-          git config user.name 'github-action'
-          git config user.email 'github-actions@github.com'
-
       - name: Get next version
         uses: actions/github-script@v6
         id: next-version
@@ -46,6 +41,8 @@ jobs:
 
       - name: Commit release branch
         run: |
+          git config user.name 'github-action'
+          git config user.email 'github-actions@github.com'
           git add -A
           git commit -m ${{ steps.next-version.outputs.result }}
           git checkout -b ${{ steps.next-version.outputs.result }}
@@ -54,7 +51,6 @@ jobs:
       - name: Create release
         uses: actions/github-script@v6
         with:
-          # github-token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
           script: |
             await github.rest.repos.createRelease({
               owner: context.repo.owner,
