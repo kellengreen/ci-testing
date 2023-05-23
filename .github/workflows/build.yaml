@@ -54,7 +54,7 @@ jobs:
       - name: Create release
         uses: actions/github-script@v6
         with:
-          # github-token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
+          github-token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
           script: |
             await github.rest.repos.getRelease({
               owner: context.repo.owner,
