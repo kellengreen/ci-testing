@@ -25,11 +25,11 @@ jobs:
           result-encoding: string
           script: |
             console.log(`
-              ${{github.event.pull_request.labels.*.name}}
+              ${{ toJson(github.event.pull_request.labels.*.name) }}
             `)
 
             console.log(`
-              ${{github.event.pull_request.labels}}
+              ${{ toJson(github.event.pull_request.labels) }}
             `)
             const semver = require("semver");
             const labels = JSON.parse("${{ toJson(github.event.pull_request.labels.*.name) }}");
