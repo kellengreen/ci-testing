@@ -18,9 +18,9 @@ jobs:
 
       - run: npm install
 
-      - name: Get next version
+      - name: Get release version
         uses: actions/github-script@v6
-        id: next-version
+        id: release-version
         with:
           result-encoding: string
           script: |
@@ -40,15 +40,15 @@ jobs:
 
       - name: Bump version
         run: |
-          npm version ${{ steps.next-version.outputs.result }} --git-tag-version=false
+          npm version ${{ steps.release-version.outputs.result }} --git-tag-version=false
 
       - name: Commit release branch
         run: |
           git config user.name 'github-action'
           git config user.email 'github-actions@github.com'
           git add -A
-          git commit -m '${{ steps.next-version.outputs.result }}'
-          git checkout -b '${{ steps.next-version.outputs.result }}'
+          git commit -m '${{ steps.release-version.outputs.result }}'
+          git checkout -b '${{ steps.release-version.outputs.result }}'
           git push origin HEAD
 
       - name: Create release
@@ -58,5 +58,5 @@ jobs:
             await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: "${{ steps.next-version.outputs.result }}",
+              tag_name: "${{ steps.release-version.outputs.result }}",
             });
