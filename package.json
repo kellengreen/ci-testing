@@ -16,12 +16,12 @@
   },
   "scripts": {
     "build": "npx tsc",
+    "build:ci": "npx tsc --noEmit",
     "format": "npx prettier --write src/**",
     "format:ci": "npx prettier --check src/**",
     "test": "npx jest",
     "test:ci": "npx jest --ci",
-    "pull": "git pull origin main",
-    "push": "VERSION=v$(date +%s) && git checkout -b $VERSION && git add -A && git commit -m $VERSION && git push origin HEAD && git checkout main"
+    "pull": "git pull origin main"
   },
   "devDependencies": {
     "@types/jest": "^29.0.0",

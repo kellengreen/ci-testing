@@ -9,27 +9,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Print github
-        env:
-          json_github: ${{ toJSON(github) }}
-        run: |
-          echo $json_github
+      - uses: actions/checkout@v3
 
-      - name: Checkout source
-        uses: actions/checkout@v3
-        with:
-          # Needed to trigger release/* events
-          # https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
-          # "events triggered by the GITHUB_TOKEN ... will not create a new workflow run"
-          token: ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}
-
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: latest
 
-      - name: Install dependencies
-        run: npm install
+      - run: npm install
 
       - name: Configure git
         run: |
@@ -39,19 +25,19 @@ jobs:
       - name: Get next version
         uses: actions/github-script@v6
         id: next-version
-        env:
-          labels: ${{ toJson(github.event.pull_request.labels || '[]') }}
         with:
           result-encoding: string
           script: |
-            const semver = require('semver')
+            const semver = require('semver');
+            const labels = "${{ toJson(github.event.pull_request.labels) }}";
+            const releases = ['major', 'minor', 'patch'];
+            const label = labels.find((label) => releases.contains(label.name));
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              release_id: 'latest',
-            })
-            console.log(context)
-            return semver.inc(result.data.name, 'minor')
+              release_id: "latest",
+            });
+            return semver.inc(result.data.name, label.name);
 
       - name: Bump version
         run: |
@@ -61,18 +47,15 @@ jobs:
         run: |
           git add -A
           git commit -m ${{ steps.next-version.outputs.result }}
-          git checkout -b "release/${{ steps.next-version.outputs.result }}"
+          git checkout -b "${{ steps.next-version.outputs.result }}"
           git push origin HEAD
 
       - name: Create release
-        run: |
-          curl https://api.github.com/repos/${{ github.repository }}/releases \
-            -s \
-            --fail-with-body \
-            -X POST \
-            -H 'Authorization: Bearer ${{ secrets.ADMIN_PERSONAL_ACCESS_TOKEN }}' \
-            -d '{
-              "name": "v.1.2.3",
-              "tag_name": "v1.2.3",
-              "target_commitish": "${{ github.ref_name }}"
-            }'
+        uses: actions/github-script@v6
+        with:
+          run: |
+            await github.rest.repos.getRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: "${{ steps.next-version.outputs.result }},
+            });
