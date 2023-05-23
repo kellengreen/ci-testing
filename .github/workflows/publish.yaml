@@ -33,15 +33,8 @@ jobs:
         with:
           result-encoding: string
           script: |
-            console.log(`
-              ${{ toJson(github.event.pull_request.labels.*.name) }}
-            `)
-
-            console.log(`
-              ${{ toJson(github.event.pull_request.labels) }}
-            `)
             const semver = require("semver");
-            const labels = JSON.parse("${{ toJson(github.event.pull_request.labels.*.name) }}");
+            const labels = ${{ toJson(github.event.pull_request.labels.*.name) }};
             const label = labels.find((label) => label.startsWith("release/"));
             const [,release] = label.split("/", 2);
             if (!release) {
