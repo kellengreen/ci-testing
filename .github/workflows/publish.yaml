@@ -71,6 +71,7 @@ jobs:
             await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              name: "${{ steps.release-version.outputs.result }}",
               tag_name: "${{ steps.release-version.outputs.result }}",
               prerelease: "${{ steps.release-version.outputs.result }}".includes("-"),
             });
