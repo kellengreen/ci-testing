@@ -25,19 +25,21 @@ jobs:
           result-encoding: string
           script: |
             const semver = require("semver");
+            /*
             const labels = JSON.parse("${{ toJson(github.event.pull_request.labels) }}");
             const label = labels.find((label) => label.name.startsWith("release/"));
             const [,release] = label.split("/", 2);
             if (!release) {
               throw Error("No release label detected")
             }
+            */
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
               repo: 'dotcom',
               release_id: "latest",
             });
             console.log(result);
-            return semver.inc(result.data.tag_name, release);
+            // return semver.inc(result.data.tag_name, release);
 
       # - name: Bump version
       #   run: |
