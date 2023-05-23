@@ -45,11 +45,11 @@ jobs:
               repo: context.repo.repo,
               release_id: "latest",
             });
-            const releaseVersion = semver.inc(result.data.tag_name, release);
-            if (!releaseVersion) {
+            const version = semver.inc(result.data.tag_name, release);
+            if (!version) {
               throw Error("Release version could not be generated")
             }
-            return releaseVersion;
+            return version;
 
       - name: Bump version
         run: |
