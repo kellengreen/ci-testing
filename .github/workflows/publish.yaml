@@ -1,13 +1,17 @@
 name: "Build"
 
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
       - main
 
 jobs:
   build:
-    if: ${{ contains(join(github.event.pull_request.labels.*.name), 'release/') }}fdsaf
+    if: |
+      github.event.pull_request.merged == true &&
+      contains(join(github.event.pull_request.labels.*.name), 'release/')
     runs-on: ubuntu-latest
     steps:
       - env:
