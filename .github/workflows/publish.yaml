@@ -27,7 +27,7 @@ jobs:
             const semver = require("semver");
             const labels = JSON.parse("${{ toJson(github.event.pull_request.labels) }}");
             const label = labels.find((label) => label.name.startsWith("release/"));
-            cons [,release] = label.split("/", 2);
+            const [,release] = label.split("/", 2);
             if (!release) {
               throw Error("No release label detected")
             }
