@@ -1,8 +1,7 @@
-name: "Source Testing"
+name: "Testing"
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
     branches:
       - "main"
 
@@ -10,40 +9,11 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-      - name: Print github
-        env:
-          json_github: ${{ toJSON(github) }}
-        run: |
-          echo $json_github
-
       - uses: actions/checkout@v3
-
       - uses: actions/setup-node@v3
         with:
-          node-version: "latest"
-
-      - name: "Configuration"
-        run: npm install
-
-      - name: Formatting Checks
-        run: npm run format:ci
-
-      - name: Unit Tests
-        run: npm run test:ci
-
-      - name: Build time validation
-        run: npm run build:ci
-
-      - name: Get next version
-        uses: actions/github-script@v6
-        id: next-version
-        with:
-          result-encoding: string
-          script: |
-            const { default: getReleaseLevel } = await import('${{ github.workspace }}/script/getReleaseLevel.js');
-            const labels = ${{ toJson(github.event.pull_request.labels) }};
-            console.log(labels);
-            console.log(typeof labels);
-            const releaseLevel = getReleaseLevel(labels);
-            console.log(releaseLevel);
-            return releaseLevel;
+          node-version: latest
+      - run: npm install
+      - run: npm run format:ci
+      - run: npm run test:ci
+      - run: npm run build:ci
