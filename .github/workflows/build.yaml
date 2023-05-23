@@ -54,7 +54,7 @@ jobs:
       - name: Create release
         uses: actions/github-script@v6
         with:
-          run: |
+          script: |
             await github.rest.repos.getRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
