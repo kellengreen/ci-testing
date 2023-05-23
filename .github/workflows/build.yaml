@@ -28,9 +28,10 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const semver = require('semver');
-            const labels = "${{ toJson(github.event.pull_request.labels) }}";
-            const releases = ['major', 'minor', 'patch'];
+            const semver = require("semver");
+            // const labels = JSON.parse("${{ toJson(github.event.pull_request.labels) }}");
+            const labels = ['patch'];
+            const releases = ["major", "minor", "patch"];
             const label = labels.find((label) => releases.contains(label.name));
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
