@@ -29,14 +29,18 @@ jobs:
             const label = labels.find((label) => label.name.startsWith("release/"));
             const [,release] = label.name.split("/", 2);
             if (!release) {
-              throw Error("No release label detected")
+              throw Error("Release label not detected")
             }
             const result = await github.rest.repos.getRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: "latest",
             });
-            return semver.inc(result.data.tag_name, release);
+            const releaseVersion = semver.inc(result.data.tag_name, release);
+            if (!releaseVersion) {
+              throw Error("Release version could not be generated")
+            }
+            return releaseVersion;
 
       - name: Bump version
         run: |
@@ -59,4 +63,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: "${{ steps.release-version.outputs.result }}",
+              prerelease: "${{ steps.release-version.outputs.result }}".includes("-"),
             });
