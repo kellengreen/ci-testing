@@ -38,7 +38,7 @@ jobs:
               repo: context.repo.repo,
               release_id: "latest",
             });
-            return semver.inc(result.data.name, label.name);
+            return semver.inc(result.data.tag_name, label.name);
 
       - name: Bump version
         run: |
