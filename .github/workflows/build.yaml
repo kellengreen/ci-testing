@@ -30,7 +30,7 @@ jobs:
           script: |
             const semver = require("semver");
             // const labels = JSON.parse("${{ toJson(github.event.pull_request.labels) }}");
-            const labels = ['patch'];
+            const labels = [{ name: "patch" }];
             const releases = ["major", "minor", "patch"];
             const label = labels.find((label) => releases.includes(label.name));
             const result = await github.rest.repos.getRelease({
